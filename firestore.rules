@@ -34,13 +34,14 @@ service cloud.firestore {
 
     // Notifications
     match /notifications/{notificationId} {
-      allow read: if isSignedIn();
+      allow read: if isAdmin() || (isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.userId == null));
       allow write: if isAdmin();
     }
 
     // Messages
     match /messages/{messageId} {
-      allow read, write: if isSignedIn();
+      allow read: if isAdmin() || (isSignedIn() && resource.data.chatId == request.auth.uid);
+      allow write: if isSignedIn();
     }
   }
 }

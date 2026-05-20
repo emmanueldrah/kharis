@@ -85,6 +85,14 @@ class _DashboardContent extends StatelessWidget {
                 value: Obx(() => Text('${controller.activePoliciesCount}')),
                 icon: Icons.security,
                 color: Colors.green,
+                onTap: () => Get.toNamed('/policies'),
+              ),
+              _SummaryCard(
+                title: 'History',
+                value: const Text('Recent'),
+                icon: Icons.history,
+                color: Colors.orange,
+                onTap: () => Get.toNamed('/transactions'),
               ),
             ],
           ),
@@ -146,37 +154,41 @@ class _SummaryCard extends StatelessWidget {
   final Widget value;
   final IconData icon;
   final Color color;
+  final VoidCallback? onTap;
 
-  const _SummaryCard({required this.title, required this.value, required this.icon, required this.color});
+  const _SummaryCard({required this.title, required this.value, required this.icon, required this.color, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.grey.withAlpha(25), blurRadius: 10, spreadRadius: 5)],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: color, size: 32),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                const SizedBox(height: 4),
-                DefaultTextStyle(
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
-                  child: value,
-                ),
-              ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [BoxShadow(color: Colors.grey.withAlpha(25), blurRadius: 10, spreadRadius: 5)],
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: color, size: 32),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                  const SizedBox(height: 4),
+                  DefaultTextStyle(
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                    child: value,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

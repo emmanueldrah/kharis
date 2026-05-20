@@ -15,6 +15,8 @@ import 'features/client/loan_application_screen.dart';
 import 'features/client/loan_status_screen.dart';
 import 'features/client/policies_screen.dart';
 import 'features/client/policy_inquiry_screen.dart';
+import 'features/client/policy_detail_screen.dart';
+import 'features/client/transaction_history_screen.dart';
 import 'features/client/messaging_screen.dart';
 import 'features/client/profile_screen.dart';
 import 'features/notifications/notifications_screen.dart';
@@ -64,6 +66,8 @@ class KharisApp extends StatelessWidget {
         GetPage(name: '/loan-status', page: () => const LoanStatusScreen()),
         GetPage(name: '/policies', page: () => const PoliciesScreen()),
         GetPage(name: '/policy-inquiry', page: () => const PolicyInquiryScreen()),
+        GetPage(name: '/policy-detail', page: () => const PolicyDetailScreen()),
+        GetPage(name: '/transactions', page: () => const TransactionHistoryScreen()),
         GetPage(name: '/messaging', page: () => const MessagingScreen()),
         GetPage(name: '/profile', page: () => const ProfileScreen()),
         GetPage(name: '/notifications', page: () => const NotificationsScreen()),

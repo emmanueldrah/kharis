@@ -16,10 +16,19 @@ class LoanApplicationScreen extends StatefulWidget {
 
 class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _amountController = TextEditingController();
   final _purposeController = TextEditingController();
   String _selectedType = AppStrings.loanTypes[0];
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final authService = Get.find<AuthService>();
+    _nameController.text = authService.user.value?.displayName ?? '';
+  }
 
   void _submit() async {
     if (_formKey.currentState!.validate()) {
@@ -30,7 +39,7 @@ class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
       final loan = LoanModel(
         id: '',
         userId: authService.user.value!.uid,
-        userName: authService.user.value!.displayName ?? 'Client',
+        userName: _nameController.text.trim(),
         type: _selectedType,
         amount: double.parse(_amountController.text),
         purpose: _purposeController.text,
@@ -56,6 +65,23 @@ class _LoanApplicationScreenState extends State<LoanApplicationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const Text('Personal Information', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: 16),
+              CustomTextField(
+                label: 'Full Name',
+                controller: _nameController,
+                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                label: 'Phone Number',
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+              ),
+              const SizedBox(height: 24),
+              const Text('Loan Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: _selectedType,
                 decoration: const InputDecoration(labelText: 'Loan Type'),

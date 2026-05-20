@@ -36,6 +36,7 @@ class PoliciesScreen extends StatelessWidget {
                           title: Text(policy.type),
                           subtitle: Text('Status: ${policy.status}'),
                           trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                          onTap: () => Get.toNamed('/policy-detail', arguments: policy),
                         ),
                       );
                     },
