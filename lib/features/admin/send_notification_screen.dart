@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'admin_controller.dart';
+import '../../data/models/notification_model.dart';
+import '../../data/repositories/notification_repository.dart';
 import '../../shared/widgets/custom_button.dart';
 import '../../shared/widgets/custom_text_field.dart';
 
@@ -14,6 +16,7 @@ class SendNotificationScreen extends StatefulWidget {
 class _SendNotificationScreenState extends State<SendNotificationScreen> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
+  final _notificationRepo = NotificationRepository();
   String? _selectedClientId;
   bool _isLoading = false;
 
@@ -24,8 +27,17 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
     }
 
     setState(() => _isLoading = true);
-    // Logic to send notification via Cloud Messaging would go here
-    await Future.delayed(const Duration(seconds: 1));
+
+    final notification = NotificationModel(
+      id: '',
+      title: _titleController.text.trim(),
+      body: _bodyController.text.trim(),
+      createdAt: DateTime.now(),
+      userId: _selectedClientId,
+    );
+
+    await _notificationRepo.sendNotification(notification);
+
     setState(() => _isLoading = false);
     Get.back();
     Get.snackbar('Success', 'Notification sent');
